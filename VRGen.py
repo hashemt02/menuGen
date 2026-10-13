@@ -10,7 +10,6 @@ from google.colab import auth
 auth.authenticate_user()
 
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
 service = build('drive', 'v3')
 
 ########################################
@@ -289,18 +288,18 @@ def get_default_prices(vrs, concepts):
         continue
       for item in vrs[concept][category]:
         if items[item]['item_price'] == 0:
-          default_prices[(concept, category)] = 5 #float(input(f"Input the price of {items[item]['item_name']}: "))
+          default_prices[(concept, category)] = float(input(f"Input the price of {items[item]['item_name']}: "))
           break
 
   return default_prices
 
 def apply_default_prices(default_prices, vrs):
 
-  PERCENTAGE_INCREASE = 0.25
-  # PERCENTAGE_INCREASE = float(input(
-  #     """Input the percentage increase for the default price of this operator\n
-  #     Input percentage in this format --> 0.##\n example: 0.25, which accounts for 25%: """
-  # ))
+  #PERCENTAGE_INCREASE = 0.25 # Default % increase
+  PERCENTAGE_INCREASE = float(input(
+      """Input the percentage increase for the default price of this operator\n
+      Input percentage in this format --> 0.##\n example: 0.25, which accounts for 25%: """
+  ))
 
   # Input default pricing if each category of type "Main Item"
 
@@ -480,24 +479,3 @@ def convert_to_df(
   mod_groups_df = convert_mod_groups_to_df(mod_groups, mod_group_ids)
 
   return vrs, mod_groups, vrs_result_df, mod_groups_df, statuses, concepts_mods
-
-
-########################################
-########################################
-
-op_id = 130
-parent_folder = "/content/drive/MyDrive/Untitled folder/MVP/MVP Chunk #1"
-
-results = vr_gen(parent_folder, op_id)
-
-vrs = results[0]
-mod_groups = results[1]
-statuses = results[2]
-concepts = results[3]
-items = results[4]
-ingredients = results[5]
-item_to_category = results[6]
-category_to_concept = results[7]
-ing_to_item = results[8]
-
-statuses
